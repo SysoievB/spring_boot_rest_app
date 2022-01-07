@@ -15,4 +15,8 @@ public class Order extends BaseEntity {
 
     @Column(name = "order_name")
     private String orderName;
+
+    public Order(Long id) {
+        this.id = id;
+    }
 }
