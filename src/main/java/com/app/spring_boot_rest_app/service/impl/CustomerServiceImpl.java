@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -43,8 +44,35 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void update(Long id, Customer customer) {
+    public void update(Long id, Customer updatedCustomer) {
+        Customer customer = getById(id);
 
+        if (updatedCustomer.getName() != null) customer.setName(updatedCustomer.getName());
+
+        if (updatedCustomer.getSurname() != null) customer.setSurname(updatedCustomer.getSurname());
+
+        if (updatedCustomer.getAccount() != null) customer.setAccount(updatedCustomer.getAccount());
+
+       /* if (updatedCustomer.getOrders() != null) {
+            Set<Order> orders = new HashSet<>();
+
+            for (var order : updatedCustomer.getOrders()) {
+                Order customerOrder = orderRepository.getOne(order.getId());
+                orders.add(customerOrder);
+            }
+            customer.setOrders(orders);
+        }*/
+        if (updatedCustomer.getOrders() != null) {
+            Set<Order> orders = updatedCustomer.getOrders()
+                    .stream()
+                    .filter(o -> orderRepository.getOne(o.getId()).equals(o.getId()))
+                    .collect(Collectors.toSet());
+            customer.setOrders(orders);
+        }
+
+        customerRepository.save(customer);
+
+        log.info("In CustomerServiceImpl update {}", customer);
     }
 
     @Override
