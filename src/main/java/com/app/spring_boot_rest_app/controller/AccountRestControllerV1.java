@@ -78,7 +78,7 @@ public class AccountRestControllerV1 {
             return ResponseEntity.badRequest().build();
         }
 
-        Account account = this.accountService.getById(id);
+        var account = this.accountService.getById(id);
 
         if (account == null) {
             return ResponseEntity.notFound().build();

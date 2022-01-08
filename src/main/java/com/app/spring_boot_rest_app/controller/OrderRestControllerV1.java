@@ -78,7 +78,7 @@ public class OrderRestControllerV1 {
             return ResponseEntity.badRequest().build();
         }
 
-        Order order = this.orderService.getById(id);
+        var order = this.orderService.getById(id);
 
         if (order == null) {
             return ResponseEntity.notFound().build();
