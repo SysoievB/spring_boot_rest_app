@@ -33,8 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
         Set<Order> orders = new HashSet<>();
 
         for (var order : customer.getOrders()) {
-            Optional<Order> optionalOrder = orderRepository.findById(order.getId());
-            Order customerOrder = optionalOrder.get();
+            Order customerOrder = orderRepository.findById(order.getId()).get();
             orders.add(customerOrder);
         }
 
@@ -65,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (updatedCustomer.getOrders() != null) {
             Set<Order> orders = updatedCustomer.getOrders()
                     .stream()
-                    .filter(o -> orderRepository.getOne(o.getId()).equals(o.getId()))
+                    .filter(o -> orderRepository.findById(o.getId()).equals(o.getId()))
                     .collect(Collectors.toSet());
             customer.setOrders(orders);
         }
@@ -84,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getById(Long id) {
-        Customer result = customerRepository.getOne(id);
+        Customer result = customerRepository.findById(id).get();
         log.info("In CustomerServiceImpl getById - order {} found by id: {}", result, result.getId());
 
         return result;

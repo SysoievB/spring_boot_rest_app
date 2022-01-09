@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getById(Long id) {
-        Order result = repository.getOne(id);
+        Order result = repository.findById(id).get();
         log.info("In OrderServiceImpl getById - order {} found by id: {}", result, result.getId());
 
         return result;

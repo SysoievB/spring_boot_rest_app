@@ -46,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getById(Long id) {
-        Account result = repository.getOne(id);
+        Account result = repository.findById(id).get();
         log.info("In AccountServiceImpl getById - account {} found by id: {}", result, result.getId());
 
         return result;
