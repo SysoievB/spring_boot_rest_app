@@ -23,4 +23,4 @@ Initializing DB should be with liquibase
 
 User interaction needs to be implemented with Postman (https://www.getpostman.com/)
 
-Technologies: Java, MySQL, Spring (MVC, Web, Data, Boot), Lombok, Maven, Liquibase.
+Technologies: Java, MySQL, Spring (MVC, Web, Data, Boot), Lombok, Maven, Liquibase, JUnit5.
