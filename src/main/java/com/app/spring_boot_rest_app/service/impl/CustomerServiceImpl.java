@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,15 +51,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         if (updatedCustomer.getAccount() != null) customer.setAccount(updatedCustomer.getAccount());
 
-       /* if (updatedCustomer.getOrders() != null) {
-            Set<Order> orders = new HashSet<>();
-
-            for (var order : updatedCustomer.getOrders()) {
-                Order customerOrder = orderRepository.getOne(order.getId());
-                orders.add(customerOrder);
-            }
-            customer.setOrders(orders);
-        }*/
         if (updatedCustomer.getOrders() != null) {
             Set<Order> orders = updatedCustomer.getOrders()
                     .stream()
