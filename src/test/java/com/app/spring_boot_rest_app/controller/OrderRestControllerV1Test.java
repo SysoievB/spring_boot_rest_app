@@ -1,38 +1,57 @@
 package com.app.spring_boot_rest_app.controller;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.app.spring_boot_rest_app.entity.Order;
+import com.app.spring_boot_rest_app.service.impl.OrderServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+@RunWith(MockitoJUnitRunner.class)
 class OrderRestControllerV1Test {
 
-    @BeforeEach
-    void setUp() {
-    }
+    @Mock
+    private OrderServiceImpl underTestingOrderService;
 
-    @AfterEach
-    void tearDown() {
+    @InjectMocks
+    private OrderRestControllerV1 underTestingOrderRestControllerV1;
+
+    @Test
+    void itShouldGetAll() {
     }
 
     @Test
-    void getAll() {
+    void itShouldGet() {
+        //Given
+        Order order = new Order("test");
+
+        //When
+        when(underTestingOrderService.getById(order.getId())).thenReturn(order);
+        ResponseEntity<Order> response = underTestingOrderRestControllerV1.get(order.getId());
+
+        //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(order.getId(), Objects.requireNonNull(response.getBody()).getId());
+        assertEquals(order.getOrderName(), Objects.requireNonNull(response.getBody()).getOrderName());
     }
 
     @Test
-    void get() {
+    void itShouldSave() {
     }
 
     @Test
-    void save() {
+    void itShouldUpdate() {
     }
 
     @Test
-    void update() {
-    }
-
-    @Test
-    void delete() {
+    void itShouldDelete() {
     }
 }
