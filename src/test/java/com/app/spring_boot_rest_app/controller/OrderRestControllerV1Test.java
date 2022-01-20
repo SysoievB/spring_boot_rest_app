@@ -25,11 +25,11 @@ class OrderRestControllerV1Test {
     private OrderRestControllerV1 underTestingOrderRestControllerV1;
 
     @Test
-    void itShouldGetAll() {
+    void itShouldGetAllOrders() {
     }
 
     @Test
-    void itShouldGet() {
+    void itShouldGetOrder() {
         //Given
         Order order = new Order("test");
 
@@ -44,14 +44,14 @@ class OrderRestControllerV1Test {
     }
 
     @Test
-    void itShouldSave() {
+    void itShouldSaveOrder() {
     }
 
     @Test
-    void itShouldUpdate() {
+    void itShouldUpdateOrder() {
     }
 
     @Test
-    void itShouldDelete() {
+    void itShouldDeleteOrder() {
     }
 }

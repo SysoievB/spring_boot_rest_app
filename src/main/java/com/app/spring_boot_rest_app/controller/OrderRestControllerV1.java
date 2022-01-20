@@ -2,7 +2,7 @@ package com.app.spring_boot_rest_app.controller;
 
 import com.app.spring_boot_rest_app.entity.Order;
 import com.app.spring_boot_rest_app.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/orders")
 public class OrderRestControllerV1 {
 
     private final OrderService orderService;
-
-    @Autowired
-    public OrderRestControllerV1(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Order>> getAll() {

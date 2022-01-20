@@ -2,7 +2,7 @@ package com.app.spring_boot_rest_app.controller;
 
 import com.app.spring_boot_rest_app.entity.Account;
 import com.app.spring_boot_rest_app.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/accounts")
 public class AccountRestControllerV1 {
 
     private final AccountService accountService;
-
-    @Autowired
-    public AccountRestControllerV1(AccountService accountService) {
-        this.accountService = accountService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Account>> getAll() {

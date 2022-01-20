@@ -2,7 +2,7 @@ package com.app.spring_boot_rest_app.controller;
 
 import com.app.spring_boot_rest_app.entity.Customer;
 import com.app.spring_boot_rest_app.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/customers")
 public class CustomerRestControllerV1 {
 
     private final CustomerService customerService;
-
-    @Autowired
-    public CustomerRestControllerV1(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Customer>> getAll() {
