@@ -34,7 +34,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)//allows using @Mock*/
 @Slf4j
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(
+        locations = "classpath:application-integration-test.properties")
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)//creates order for executing testing methods
 @RunWith(MockitoJUnitRunner.class)
 class OrderServiceImplTest {
