@@ -3,10 +3,7 @@ package com.app.spring_boot_rest_app.service.impl;
 import com.app.spring_boot_rest_app.repository.OrderRepository;
 import com.app.spring_boot_rest_app.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -33,11 +30,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)//allows using @Mock*/
 @Slf4j
-@DataJpaTest
+/*@DataJpaTest
 @TestPropertySource(
-        locations = "classpath:application-integration-test.properties")
+        locations = "classpath:application-integration-test.properties")*/
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)//creates order for executing testing methods
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)//creates order for executing testing methods
 @RunWith(MockitoJUnitRunner.class)
 class OrderServiceImplTest {
 
@@ -47,9 +44,14 @@ class OrderServiceImplTest {
     @InjectMocks
     private OrderServiceImpl underTestOrderService;
 
+    @BeforeEach
+    void setUp() {
+        underTestOrderService = new OrderServiceImpl(underTestOrderRepository);
+    }
+
     @Test
-    @Order(1)
-    @Rollback(value = false)
+        //@Order(1)
+        //@Rollback(value = false)
     void itShouldSave() {
         //Given
         com.app.spring_boot_rest_app.entity.Order savedOrder =
@@ -62,7 +64,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    @Order(2)
+        // @Order(2)
     void itShouldGetById() {
         //Given
         /*com.app.spring_boot_rest_app.entity.Order orderGet = underTestOrderService
@@ -73,12 +75,12 @@ class OrderServiceImplTest {
         //When
         //underTestOrderService.getById(order.getId());
         //Then
-       // assertTrue(orderGet.getId() > 0);
-       // assertEquals((13L), (long) orderGet.getId());
+        // assertTrue(orderGet.getId() > 0);
+        // assertEquals((13L), (long) orderGet.getId());
     }
 
     @Test
-    @Order(3)
+        // @Order(3)
     void itShouldList() {
         //Given
         List<com.app.spring_boot_rest_app.entity.Order> orders = underTestOrderService.list();
@@ -86,11 +88,12 @@ class OrderServiceImplTest {
         //When
 
         //Then
-        assertTrue(orders.size()>0);
+        assertTrue(orders.size() > 0);
     }
+
     @Test
-    @Order(4)
-    @Rollback(value = false)
+        // @Order(4)
+        // @Rollback(value = false)
     void itShouldUpdate() {
         //Given
         //When
@@ -98,7 +101,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    @Order(5)
+        // @Order(5)
     void itShouldDelete() {
         //Given
         //When
