@@ -42,7 +42,7 @@ class OrderServiceImplTest {
     private OrderRepository underTestOrderRepository;
 
     @InjectMocks
-    private OrderServiceImpl underTestOrderService;
+    private OrderService underTestOrderService;
 
     @BeforeEach
     void setUp() {
