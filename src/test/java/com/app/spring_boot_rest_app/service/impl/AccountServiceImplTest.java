@@ -10,6 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,16 +21,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @RunWith(MockitoJUnitRunner.class)
 class AccountServiceImplTest {
 
+    private MockMvc mockMvc;
+
     @Mock
     private AccountRepository underTestAccountRepository;
 
     @InjectMocks
     private AccountService underTestAccountService;
 
-    @BeforeEach
+   /* @BeforeEach
     void setUp() {
-        underTestAccountService = new AccountServiceImpl(underTestAccountRepository);
-    }
+        mockMvc = MockMvcBuilders.standaloneSetup(underTestAccountService).build();
+    }*/
 
     @Test
     void itShouldSaveAccount() {
@@ -37,7 +43,7 @@ class AccountServiceImplTest {
 
         //Then
         assertNotNull(testAccount);
-        assertEquals(AccountStatus.ACTIVE,testAccount.getStatus());
+        assertEquals(AccountStatus.ACTIVE, testAccount.getStatus());
     }
 
     @Test

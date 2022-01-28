@@ -29,7 +29,6 @@ import static org.junit.jupiter.api.Assertions.*;
         locations = "classpath:application-integration-test.properties")
 
 @ExtendWith(MockitoExtension.class)//allows using @Mock*/
-@Slf4j
 /*@DataJpaTest
 @TestPropertySource(
         locations = "classpath:application-integration-test.properties")*/
