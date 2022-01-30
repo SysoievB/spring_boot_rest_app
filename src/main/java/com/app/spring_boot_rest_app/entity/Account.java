@@ -14,4 +14,8 @@ public class Account extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private AccountStatus status;
+
+    public Account(AccountStatus status) {
+        this.status = status;
+    }
 }
