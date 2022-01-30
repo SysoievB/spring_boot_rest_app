@@ -1,39 +1,24 @@
 package com.app.spring_boot_rest_app.service.impl;
 
+import com.app.spring_boot_rest_app.entity.Order;
 import com.app.spring_boot_rest_app.repository.OrderRepository;
-import com.app.spring_boot_rest_app.service.OrderService;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.TestPropertySource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
-/*@Slf4j
-@DataJpaTest//allows using added DB for testing
-//@Rollback(value = false)//by default is true - rollback all changes in DB
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)//uses the same DB
-@TestPropertySource(
-        locations = "classpath:application-integration-test.properties")
-
-@ExtendWith(MockitoExtension.class)//allows using @Mock*/
-/*@DataJpaTest
-@TestPropertySource(
-        locations = "classpath:application-integration-test.properties")*/
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)//creates order for executing testing methods
 @RunWith(MockitoJUnitRunner.class)
 class OrderServiceImplTest {
 
@@ -41,69 +26,84 @@ class OrderServiceImplTest {
     private OrderRepository underTestOrderRepository;
 
     @InjectMocks
-    private OrderService underTestOrderService;
+    private OrderServiceImpl underTestOrderService;
 
     @BeforeEach
-    void setUp() {
-        underTestOrderService = new OrderServiceImpl(underTestOrderRepository);
+    void init() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-        //@Order(1)
-        //@Rollback(value = false)
-    void itShouldSave() {
+    void itShouldSaveOrder() {
         //Given
-        com.app.spring_boot_rest_app.entity.Order savedOrder =
-                new com.app.spring_boot_rest_app.entity.Order("test");
+        Order savedOrder = new Order("test");
+
         //When
         underTestOrderService.save(savedOrder);
+
         //Then
         assertNotNull(savedOrder);
         assertEquals("test", savedOrder.getOrderName());
+
+        verify(underTestOrderRepository, atLeastOnce()).save(savedOrder);
     }
 
     @Test
-        // @Order(2)
-    void itShouldGetById() {
+    void itShouldGetByIdOrder() {
         //Given
-        /*com.app.spring_boot_rest_app.entity.Order orderGet = underTestOrderService
-                .list()
-                .stream()
-                .filter(o->o.getOrderName().equals("test"))
-                .findFirst().get();*/
+        Order getOrder = new Order(13L, "test");
+
         //When
-        //underTestOrderService.getById(order.getId());
+        when(underTestOrderRepository.getOne(getOrder.getId())).thenReturn(getOrder);
+        Order getIdOrder = underTestOrderService.getById(getOrder.getId());
+
         //Then
-        // assertTrue(orderGet.getId() > 0);
-        // assertEquals((13L), (long) orderGet.getId());
+        assertTrue(getOrder.getId() > 0);
+        assertEquals(getOrder, getIdOrder);
+
+        verify(underTestOrderRepository, atLeastOnce()).getOne(13L);
     }
 
     @Test
-        // @Order(3)
-    void itShouldList() {
+    void itShouldListAllOrders() {
         //Given
-        List<com.app.spring_boot_rest_app.entity.Order> orders = underTestOrderService.list();
+
+        List<Order> orders = new ArrayList<>(Arrays.asList(new Order("test_list")));
+
+        given(underTestOrderService.list()).willReturn(orders);
 
         //When
+        List<Order> expected = underTestOrderService.list();
 
         //Then
         assertTrue(orders.size() > 0);
+        assertEquals(expected, orders);
+
+        verify(underTestOrderService, atLeastOnce()).list();
     }
 
     @Test
-        // @Order(4)
-        // @Rollback(value = false)
-    void itShouldUpdate() {
+    void itShouldUpdateOrder() {
         //Given
+        Order updatedOrder = underTestOrderService.getById(13L);
+
         //When
+        updatedOrder.setOrderName("update");
+
         //Then
+        assertEquals("update", updatedOrder.getOrderName());
     }
 
     @Test
-        // @Order(5)
-    void itShouldDelete() {
+    void itShouldDeleteOrderByIdIfFound() {
         //Given
+        Order deletedOrder = new Order(1L, "test_delete");
+
         //When
+        when(underTestOrderRepository.findById(1L)).thenReturn(Optional.of(deletedOrder));
+        underTestOrderService.delete(deletedOrder.getId());
+
         //Then
+        verify(underTestOrderRepository, atLeastOnce()).deleteById(deletedOrder.getId());
     }
 }
