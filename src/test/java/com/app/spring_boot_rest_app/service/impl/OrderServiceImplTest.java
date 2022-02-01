@@ -33,7 +33,7 @@ class OrderServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test//1
+    @Test
     void itShouldSaveOrder() {
         //Given
         Order savedOrder = new Order("test");
@@ -62,7 +62,7 @@ class OrderServiceImplTest {
         verify(underTestOrderRepository, atLeastOnce()).getOne(getOrder.getId());
     }
 
-    @Test//1
+    @Test
     void itShouldListAllOrders() {
         //Given
 
@@ -83,24 +83,26 @@ class OrderServiceImplTest {
     @Test
     void itShouldUpdateOrder() {
         //Given
-        Order updatedOrder = underTestOrderService.getById(13L);
+        Order order = new Order(1L,"test");
+        Order updatedOrder = new Order("updated");
 
         //When
-        updatedOrder.setOrderName("update");
+        when(underTestOrderRepository.getOne(order.getId())).thenReturn(order);
+        underTestOrderService.update(order.getId(),updatedOrder);
 
         //Then
-        assertEquals("update", updatedOrder.getOrderName());
+        assertEquals("update", order.getOrderName());
+
+        verify(underTestOrderRepository,atLeastOnce()).save(order);
     }
 
     @Test
     void itShouldDeleteOrderByIdIfFound() {
         //Given
         Order deletedOrder = new Order(1L, "test_delete");
-        //underTestOrderService.save(deletedOrder);
 
         //When
-        when(underTestOrderRepository.findById(1L)).thenReturn(Optional.of(deletedOrder));
-        //underTestOrderService.delete(deletedOrder.getId());
+        when(underTestOrderRepository.findById(deletedOrder.getId())).thenReturn(Optional.of(deletedOrder));
 
         //Then
         verify(underTestOrderRepository, atLeastOnce()).deleteById(deletedOrder.getId());
