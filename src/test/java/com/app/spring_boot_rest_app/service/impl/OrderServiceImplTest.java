@@ -54,12 +54,13 @@ class OrderServiceImplTest {
         Order getOrder = new Order(1L, "test");
 
         //When
-        when(underTestOrderRepository.getOne(getOrder.getId())).thenReturn(getOrder);
+        when(underTestOrderRepository.findById(getOrder.getId())).thenReturn(Optional.of(getOrder));
+        underTestOrderService.getById(getOrder.getId());
 
         //Then
         assertTrue(getOrder.getId() > 0);
 
-        verify(underTestOrderRepository, atLeastOnce()).getOne(getOrder.getId());
+        verify(underTestOrderRepository, atLeastOnce()).findById(getOrder.getId());
     }
 
     @Test
@@ -83,17 +84,18 @@ class OrderServiceImplTest {
     @Test
     void itShouldUpdateOrder() {
         //Given
-        Order order = new Order(1L,"test");
+        Order order = new Order(1L, "test");
         Order updatedOrder = new Order("updated");
+        given(underTestOrderRepository.findById(order.getId())).willReturn(Optional.of(order));
 
         //When
-        when(underTestOrderRepository.getOne(order.getId())).thenReturn(order);
-        underTestOrderService.update(order.getId(),updatedOrder);
+        underTestOrderService.update(order.getId(), updatedOrder);
 
         //Then
-        assertEquals("update", order.getOrderName());
+        assertEquals("updated", order.getOrderName());
 
-        verify(underTestOrderRepository,atLeastOnce()).save(order);
+        verify(underTestOrderRepository, atLeastOnce()).save(order);
+        verify(underTestOrderRepository, atLeastOnce()).findById(order.getId());
     }
 
     @Test
@@ -103,8 +105,9 @@ class OrderServiceImplTest {
 
         //When
         when(underTestOrderRepository.findById(deletedOrder.getId())).thenReturn(Optional.of(deletedOrder));
+        underTestOrderService.delete(deletedOrder.getId());
 
         //Then
-        verify(underTestOrderRepository, atLeastOnce()).deleteById(deletedOrder.getId());
+        verify(underTestOrderRepository, atLeastOnce()).delete(deletedOrder);
     }
 }
