@@ -2,6 +2,7 @@ package com.app.spring_boot_rest_app.service.impl;
 
 import com.app.spring_boot_rest_app.entity.Account;
 import com.app.spring_boot_rest_app.entity.AccountStatus;
+import com.app.spring_boot_rest_app.entity.Order;
 import com.app.spring_boot_rest_app.repository.AccountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 class AccountServiceImplTest {
@@ -24,20 +31,23 @@ class AccountServiceImplTest {
     private AccountServiceImpl underTestAccountService;
 
     @BeforeEach
-    void init(){
+    void init() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     void itShouldSaveAccount() {
         //Given
-        Account testAccount = new Account(AccountStatus.ACTIVE);
+        Account saveAccount = new Account(AccountStatus.ACTIVE);
+
         //When
-        underTestAccountService.save(testAccount);
+        underTestAccountService.save(saveAccount);
 
         //Then
-        assertNotNull(testAccount);
-        assertEquals(AccountStatus.ACTIVE, testAccount.getStatus());
+        assertNotNull(saveAccount);
+        assertEquals(AccountStatus.ACTIVE, saveAccount.getStatus());
+
+        verify(underTestAccountRepository, atLeastOnce()).save(saveAccount);
     }
 
     @Test
@@ -48,23 +58,46 @@ class AccountServiceImplTest {
     }
 
     @Test
-    void itShouldDeleteAccount() {
+    void itShouldDeleteAccountIfFound() {
         //Given
+        Account deletedAccount = new Account(1L, AccountStatus.ACTIVE);
+
         //When
+        when(underTestAccountRepository.findById(deletedAccount.getId())).thenReturn(Optional.of(deletedAccount));
+        underTestAccountService.delete(deletedAccount.getId());
+
         //Then
+        verify(underTestAccountRepository, atLeastOnce()).delete(deletedAccount);
     }
 
     @Test
     void itShouldGetAccountById() {
         //Given
+        Account getAccount = new Account(1L, AccountStatus.ACTIVE);
+
         //When
+        when(underTestAccountRepository.findById(getAccount.getId())).thenReturn(Optional.of(getAccount));
+        underTestAccountService.getById(getAccount.getId());
+
         //Then
+        assertTrue(getAccount.getId() > 0);
+
+        verify(underTestAccountRepository, atLeastOnce()).findById(getAccount.getId());
     }
 
     @Test
     void itShouldListAllAccounts() {
-        //Given
+        List<Account> accounts = new ArrayList<>(Arrays.asList(new Account(AccountStatus.ACTIVE)));
+
+        given(underTestAccountRepository.findAll()).willReturn(accounts);
+
         //When
+        List<Account> expected = underTestAccountRepository.findAll();
+
         //Then
+        assertTrue(accounts.size() > 0);
+        assertEquals(expected, accounts);
+
+        verify(underTestAccountRepository, atLeastOnce()).findAll();
     }
 }
