@@ -33,12 +33,15 @@ class OrderRestControllerV1Test {
 
     @Test
     void itShouldGetAllOrders() {
+        // Given
+        // When
+        // Then
     }
 
     @Test
     void itShouldGetOrder() {
         //Given
-        Order order = new Order(1L,"test");
+        Order order = new Order(1L, "test");
 
         //When
         when(underTestingOrderService.getById(order.getId())).thenReturn(order);
@@ -51,14 +54,39 @@ class OrderRestControllerV1Test {
     }
 
     @Test
+    public void itShouldGetOrderFail() {
+        // Given
+        Long id = 1L;
+
+        // When
+        ResponseEntity<Order> response1 = underTestingOrderRestControllerV1.get(null);
+
+        when(underTestingOrderService.getById(id)).thenReturn(null);
+        ResponseEntity<Order> response2 = underTestingOrderRestControllerV1.get(id);
+
+        // Then
+        assertEquals(HttpStatus.BAD_REQUEST, response1.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
+    }
+
+    @Test
     void itShouldSaveOrder() {
+        // Given
+        // When
+        // Then
     }
 
     @Test
     void itShouldUpdateOrder() {
+        // Given
+        // When
+        // Then
     }
 
     @Test
     void itShouldDeleteOrder() {
+        // Given
+        // When
+        // Then
     }
 }
