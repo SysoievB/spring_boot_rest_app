@@ -2,10 +2,12 @@ package com.app.spring_boot_rest_app.controller;
 
 import com.app.spring_boot_rest_app.entity.Order;
 import com.app.spring_boot_rest_app.service.impl.OrderServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,11 @@ class OrderRestControllerV1Test {
     @InjectMocks
     private OrderRestControllerV1 underTestingOrderRestControllerV1;
 
+    @BeforeEach
+    void init() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     void itShouldGetAllOrders() {
     }
@@ -31,7 +38,7 @@ class OrderRestControllerV1Test {
     @Test
     void itShouldGetOrder() {
         //Given
-        Order order = new Order("test");
+        Order order = new Order(1L,"test");
 
         //When
         when(underTestingOrderService.getById(order.getId())).thenReturn(order);
