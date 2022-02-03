@@ -2,7 +2,6 @@ package com.app.spring_boot_rest_app.service.impl;
 
 import com.app.spring_boot_rest_app.entity.Account;
 import com.app.spring_boot_rest_app.entity.AccountStatus;
-import com.app.spring_boot_rest_app.entity.Order;
 import com.app.spring_boot_rest_app.repository.AccountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,8 +52,18 @@ class AccountServiceImplTest {
     @Test
     void itShouldUpdateAccount() {
         //Given
+        Account account = new Account(1L, AccountStatus.ACTIVE);
+        Account updatedAccount = new Account(AccountStatus.BANNED);
+        given(underTestAccountRepository.findById(account.getId())).willReturn(Optional.of(account));
+
         //When
+        underTestAccountService.update(account.getId(), updatedAccount);
+
         //Then
+        assertEquals(AccountStatus.BANNED.name(), account.getStatus().name());
+
+        verify(underTestAccountRepository, atLeastOnce()).save(account);
+        verify(underTestAccountRepository, atLeastOnce()).findById(account.getId());
     }
 
     @Test
