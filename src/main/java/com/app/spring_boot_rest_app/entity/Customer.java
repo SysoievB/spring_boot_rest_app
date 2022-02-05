@@ -28,4 +28,18 @@ public class Customer extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
     @OrderBy(value = "id ASC")
     private Set<Order> orders = new HashSet<>();
+
+    public Customer(Long id, String name, String surname) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public Customer(Long id, String name, String surname, Account account, Set<Order> orders) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.account = account;
+        this.orders = orders;
+    }
 }
