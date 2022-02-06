@@ -52,13 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         if (updatedCustomer.getAccount() != null) customer.setAccount(updatedCustomer.getAccount());
 
-        if (updatedCustomer.getOrders() != null) {
-            Set<Order> orders = updatedCustomer.getOrders()
-                    .stream()
-                    .filter(o -> orderRepository.findById(o.getId()).equals(o.getId()))
-                    .collect(Collectors.toSet());
-            customer.setOrders(orders);
-        }
+        if (updatedCustomer.getOrders() != null) customer.setOrders(updatedCustomer.getOrders());
 
         customerRepository.save(customer);
 

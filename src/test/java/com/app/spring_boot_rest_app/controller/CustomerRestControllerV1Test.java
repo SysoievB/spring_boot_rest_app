@@ -1,6 +1,5 @@
 package com.app.spring_boot_rest_app.controller;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,27 +11,38 @@ class CustomerRestControllerV1Test {
     void setUp() {
     }
 
-    @AfterEach
-    void tearDown() {
+    @Test
+    void itShouldGetAll() {
+        // Given
+        // When
+        // Then
     }
 
     @Test
-    void getAll() {
+    void itShouldGet() {
+        // Given
+        // When
+        // Then
     }
 
     @Test
-    void get() {
+    void itShouldSave() {
+        // Given
+        // When
+        // Then
     }
 
     @Test
-    void save() {
+    void itShouldUpdate() {
+        // Given
+        // When
+        // Then
     }
 
     @Test
-    void update() {
-    }
-
-    @Test
-    void delete() {
+    void itShouldDelete() {
+        // Given
+        // When
+        // Then
     }
 }

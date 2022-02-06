@@ -93,7 +93,7 @@ class CustomerServiceImplTest {
         assertEquals(updatedCustomer.getName(), customer.getName());
         assertEquals(updatedCustomer.getSurname(), customer.getSurname());
         assertEquals(updatedCustomer.getAccount().getStatus().name(), customer.getAccount().getStatus().name());
-        // assertEquals(updatedCustomer.getOrders().size(),customer.getOrders().size());
+        assertEquals(updatedCustomer.getOrders().size(), customer.getOrders().size());
 
         verify(underTestCustomerRepository, atLeastOnce()).save(customer);
         verify(underTestCustomerRepository, atLeastOnce()).findById(customer.getId());
