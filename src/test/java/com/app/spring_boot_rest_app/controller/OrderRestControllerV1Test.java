@@ -166,7 +166,7 @@ class OrderRestControllerV1Test {
         // Then
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
 
-        verify(underTestingOrderService, times(1)).delete(order.getId());
+        verify(underTestingOrderService, atLeastOnce()).delete(order.getId());
     }
 
     @Test

@@ -162,7 +162,7 @@ class AccountRestControllerV1Test {
         // Then
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
 
-        verify(underTestingAccountService, times(1)).delete(account.getId());
+        verify(underTestingAccountService, atLeastOnce()).delete(account.getId());
     }
 
     @Test
