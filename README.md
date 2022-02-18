@@ -1,7 +1,7 @@
 # spring_boot_rest_app
 Spring REST Api with DB & CRUD operations with such entities:
 
-Customer (id, name, surname, Status status,Set<Order>)
+Customer (id, name, surname, Status status, Set<Order>)
 
 Order (id, name)
 
