@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
@@ -46,7 +47,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getById(Long id) {
-        Account result = repository.findById(id).get();
+        Account result = repository
+                .findById(id)
+                .orElseThrow(NoSuchElementException::new);
+
         log.info("In AccountServiceImpl getById - account {} found by id: {}", result, result.getId());
 
         return result;

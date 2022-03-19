@@ -9,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,8 +33,12 @@ public class CustomerServiceImpl implements CustomerService {
     public void save(Customer customer) {
         Set<Order> orders = customer.getOrders()
                 .stream()
-                .map(order -> orderRepository.findById(order.getId()).get())
-                .collect(Collectors.toSet());
+                .map(
+                        order -> orderRepository
+                                .findById(order.getId())
+                                .orElseThrow(NoSuchElementException::new)
+                )
+                .collect(Collectors.toCollection(HashSet::new));
 
         customer.setOrders(orders);
         customerRepository.save(customer);
@@ -65,7 +71,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getById(Long id) {
-        Customer result = customerRepository.findById(id).get();
+        Customer result = customerRepository.findById(id).orElseThrow();
         log.info("In CustomerServiceImpl getById - order {} found by id: {}", result, result.getId());
 
         return result;

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
@@ -45,7 +46,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getById(Long id) {
-        Order result = repository.findById(id).get();
+        Order result = repository
+                .findById(id)
+                .orElseThrow(NoSuchElementException::new);
+
         log.info("In OrderServiceImpl getById - order {} found by id: {}", result, result.getId());
 
         return result;
