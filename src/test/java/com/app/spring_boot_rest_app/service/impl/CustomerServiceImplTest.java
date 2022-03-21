@@ -65,9 +65,10 @@ class CustomerServiceImplTest {
 
         verify(underTestCustomerRepository, atLeastOnce()).save(customer);
 
-        for (var o : customer.getOrders()) {
-            verify(underTestOrderRepository, atLeastOnce()).findById(o.getId());
-        }
+        customer.getOrders()
+                .forEach(o ->
+                        verify(underTestOrderRepository, atLeastOnce()).findById(o.getId())
+                );
     }
 
     @Test
